@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from bson import ObjectId
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/mydatabase'
+app.config['MONGO_URI'] = 'mongodb+srv://archanakdl97:Kyf74JyCO1eUFKRY@cluster0.l7zvbn7.mongodb.net/mydatabase'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
