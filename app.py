@@ -13,22 +13,26 @@ app.config['JWT_SECRET_KEY'] = 'your-secret-key'
 jwt = JWTManager(app)
 
 @app.route('/register', methods=['POST'])
+
 def register():
-    data = request.get_json()
-    first_name = data.get('first_name')
-    last_name = data.get('last_name')
-    email = data.get('email')
-    password = data.get('password')
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    if mongo.db.users.find_one({'email': email}):
-        return jsonify({'message': 'Email already exists'}), 400
-    mongo.db.users.insert_one({
-        'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'password': hashed_password
-    })
-    return jsonify({'message': 'User registered successfully'}), 201
+    try:
+        data = request.get_json()
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
+        password = data.get('password')
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        if mongo.db.users.find_one({'email': email}):
+            return jsonify({'message': 'Email already exists'}), 400
+        mongo.db.users.insert_one({
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'password': hashed_password
+        })
+        return jsonify({'message': 'User registered successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': e}), 400
 
 
 @app.route('/login', methods=['POST'])
