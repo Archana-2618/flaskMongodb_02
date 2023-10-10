@@ -48,8 +48,8 @@ def login():
             return jsonify(access_token=access_token), 200
         else:
             return jsonify({'error': 'Invalid email or password'}), 401
-    except:
-        return jsonify({'error': 'Somthing went wrong'}), 404
+    except Exception as e:
+            return jsonify({'error': e}), 400
 
 @app.route('/template', methods=['POST'])
 @jwt_required()
